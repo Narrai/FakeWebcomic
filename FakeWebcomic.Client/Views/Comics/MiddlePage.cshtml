@@ -1,0 +1,31 @@
+@Model [page model]
+
+@{
+    ViewData["IndividualTitle"] = @Model.IndividualTitle;
+}
+<section name="comic">
+    <h1 class="justify-content-center">@Model.ComicNumber: @Model.IndividualTitle</h1>
+
+    <nav class="navbar navbar-extend-sm justify-content-center" name="topnav">
+        <a class="nav-link text-dark" asp-area="" asp-controller="Comics" asp-action="Get(1)"><<</a>
+        <a class="nav-link text-dark" asp-area="" asp-controller="Comics" asp-action="Get(@Model.PreviousComicNumber)"><</a>
+        <a class="nav-link text-dark" asp-area="" asp-controller="Comics" asp-action="Get(@Model.RandomComicNumber)">?</a>
+        <a class="nav-link text-dark" asp-area="" asp-controller="Archive" asp-action="Get()">||</a>
+        <a class="nav-link text-dark" asp-area="" asp-controller="Comics" asp-action="Get(@Model.NextComicNumber)">></a>
+        <a class="nav-link text-dark" asp-area="" asp-controller="Comics" asp-action="Get()">>></a>
+    </nav>
+
+    <img src="@Model.ComicPath" alt="@Model.ComicAltText" name="comicimg"/>
+    <!--Want to make it so clicking on the comic will take you to the next page.
+    Best done with JS? Or can you make an img into a button more directly?
+    Very noncritical.-->
+
+    <nav class="navbar navbar-extend-md justify-content-center" name="botnav">
+        <a class="nav-link text-dark" asp-area="" asp-controller="Comics" asp-action="Get(1)"><< first</a>
+        <a class="nav-link text-dark" asp-area="" asp-controller="Comics" asp-action="Get(@Model.PreviousComicNumber)">< previous</a>
+        <a class="nav-link text-dark" asp-area="" asp-controller="Comics" asp-action="Get(@Model.RandomComicNumber)">random</a>
+        <a class="nav-link text-dark" asp-area="" asp-controller="Archive" asp-action="Get()">archive</a>
+        <a class="nav-link text-dark" asp-area="" asp-controller="Comics" asp-action="Get(@Model.NextComicNumber)">next ></a>
+        <a class="nav-link text-dark" asp-area="" asp-controller="Comics" asp-action="Get(0)">latest >></a>
+    </nav>
+</section>

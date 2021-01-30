@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Drawing;
 using FakeWebcomic.Storage.Models;
 using Microsoft.EntityFrameworkCore;
@@ -43,7 +42,7 @@ namespace FakeWebcomic.Storage
             var img = Image.FromFile("Images/test_img.jpg");
             byte[] imgByteArr = obj.ConvertImageToByteArray(img, ".jpg");
 
-            ComicPage p1 = new ComicPage { EntityId = 1L, ComicBookId = 1L, PageNumber = 1, Image = imgByteArr };
+            ComicPage p1 = new ComicPage { EntityId = 1L, ComicBookId = 1L, PageNumber = 1, Image = imgByteArr, PageTitle = "Tin goes to the amuesment park" };
             ComicBook b1 = new ComicBook { EntityId = 1L, Title = "Tin Tin's Adventure", Author = "Hergé", Genre = "Adventure", EditionNumber = 32 };
 
             // Insert the seed data to MS SQL DB

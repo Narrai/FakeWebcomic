@@ -44,7 +44,7 @@ namespace FakeWebcomic.Storage
             byte[] imgByteArr = obj.ConvertImageToByteArray(img, ".jpg");
 
             ComicPage p1 = new ComicPage { EntityId = 1L, ComicBookId = 1L, PageNumber = 1, Image = imgByteArr };
-            ComicBook b1 = new ComicBook { EntityId = 1L, Title = "Tin Tin's Adventure", Author = "	Hergé", Genre = "Adventure", EditionNumber = 32 };
+            ComicBook b1 = new ComicBook { EntityId = 1L, Title = "Tin Tin's Adventure", Author = "Hergé", Genre = "Adventure", EditionNumber = 32 };
 
             // Insert the seed data to MS SQL DB
             builder.Entity<User>().HasData(u1);

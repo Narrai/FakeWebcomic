@@ -1,6 +1,6 @@
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace FakeWebcomic.Storage.Models
 {
@@ -11,11 +11,14 @@ namespace FakeWebcomic.Storage.Models
         private FakeWebcomicContext _ctx = new FakeWebcomicContext();
 
         [HttpGet]
-        public async Task<IActionResult> GetTask()
+        public async Task<IActionResult> GetUsers()
         {
-            var user = _ctx.Users.FirstOrDefault();
-            return await Task.FromResult(Ok(user.Name));
+            var user = _ctx.Users;
+            return await Task.FromResult(Ok(user));
         }
-    }
 
+        // TODO: Get Admin
+
+        // TODO: Create Users
+    }
 }

@@ -12,6 +12,7 @@ public class ImageConvertor
             return Image.FromStream(ms);
         }
     }
+
     public byte[] ConvertImageToByteArray(Image image, string extension)
     {
         using (var memoryStream = new MemoryStream())

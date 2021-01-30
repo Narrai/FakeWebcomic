@@ -9,8 +9,6 @@ namespace FakeWebcomic.Storage.Models
         public string Genre { get; set; }
         public int EditionNumber { get; set; }
 
-
         public ICollection<ComicPage> ComicPages { get; set; }
-
     }
 }

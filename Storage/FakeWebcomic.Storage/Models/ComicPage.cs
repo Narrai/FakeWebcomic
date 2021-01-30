@@ -1,3 +1,4 @@
+
 namespace FakeWebcomic.Storage.Models
 {
     public class ComicPage : AEntity
@@ -8,6 +9,5 @@ namespace FakeWebcomic.Storage.Models
 
         public long ComicBookId { get; set; }
         public ComicBook ComicBook { get; set; }
-
     }
 }

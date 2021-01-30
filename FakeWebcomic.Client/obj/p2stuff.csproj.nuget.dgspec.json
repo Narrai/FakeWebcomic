@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "/home/elliot/revature/week_6/p2stuff/p2stuff.csproj": {}
+    "/home/ktouch/revature/projects/p2/Fake_Webcomic/FakeWebcomic.Client/p2stuff.csproj": {}
   },
   "projects": {
-    "/home/elliot/revature/week_6/p2stuff/p2stuff.csproj": {
+    "/home/ktouch/revature/projects/p2/Fake_Webcomic/FakeWebcomic.Client/p2stuff.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/elliot/revature/week_6/p2stuff/p2stuff.csproj",
+        "projectUniqueName": "/home/ktouch/revature/projects/p2/Fake_Webcomic/FakeWebcomic.Client/p2stuff.csproj",
         "projectName": "p2stuff",
-        "projectPath": "/home/elliot/revature/week_6/p2stuff/p2stuff.csproj",
-        "packagesPath": "/home/elliot/.nuget/packages/",
-        "outputPath": "/home/elliot/revature/week_6/p2stuff/obj/",
+        "projectPath": "/home/ktouch/revature/projects/p2/Fake_Webcomic/FakeWebcomic.Client/p2stuff.csproj",
+        "packagesPath": "/home/ktouch/.nuget/packages/",
+        "outputPath": "/home/ktouch/revature/projects/p2/Fake_Webcomic/FakeWebcomic.Client/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/home/elliot/.nuget/NuGet/NuGet.Config"
+          "/home/ktouch/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net5.0"

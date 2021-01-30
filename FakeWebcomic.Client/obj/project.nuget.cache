@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "vOrpH7eyx2yomGEJFDwTwhvA9SzMDQKRmiWrcZG1JciAI5PSS6zPAFapiPuCEGOupizOoWU6rs98M4wRBViKFQ==",
+  "dgSpecHash": "FwM2oHfRr65n0z2t8FR0XGCU2WcRIDWJkKzstSL87Stig6FWh0wvYh/62z8I73QdckkixkPBLn0alPneiaciyQ==",
   "success": true,
-  "projectFilePath": "/home/elliot/revature/week_6/p2stuff/p2stuff.csproj",
+  "projectFilePath": "/home/ktouch/revature/projects/p2/Fake_Webcomic/FakeWebcomic.Client/p2stuff.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

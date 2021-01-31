@@ -1,18 +1,25 @@
 @Model [page model]
 
 @{
-    ViewData["IndividualTitle"] = @Model.IndividualTitle;
+    Layout = "_Layout";
 }
+
+@{
+    ViewData["WebcomicTitle"] = Model.ComicBook.Title;
+    ViewData["PageTitle"] = Model.PageTitle;
+    ViewData["WebcomicId"] = Model.WebcomicId;
+}
+
 <section name="comic">
-    <h1 class="justify-content-center">@Model.ComicNumber: @Model.IndividualTitle</h1>
+    <h1 class="justify-content-center">@Model.ComicNumber. @Model.IndividualTitle</h1>
 
     <nav class="navbar navbar-extend-sm justify-content-center" name="topnav">
-        <a class="nav-link text-dark" asp-area="" asp-controller="Comics" asp-action="Get(1)"><<</a>
-        <a class="nav-link text-dark" asp-area="" asp-controller="Comics" asp-action="Get(@Model.PreviousComicNumber)"><</a>
-        <a class="nav-link text-dark" asp-area="" asp-controller="Comics" asp-action="Get(@Model.RandomComicNumber)">?</a>
-        <a class="nav-link text-dark" asp-area="" asp-controller="Archive" asp-action="Get()">||</a>
-        <a class="nav-link text-dark" asp-area="" asp-controller="Comics" asp-action="Get(@Model.NextComicNumber)">></a>
-        <a class="nav-link text-dark" asp-area="" asp-controller="Comics" asp-action="Get()">>></a>
+        <a class="nav-link text-dark" asp-area="" asp-controller="Comics" asp-action="GetPage(@Model.WebcomicId,@Model.FirstPageNumber)"><<</a>
+        <a class="nav-link text-dark" asp-area="" asp-controller="Comics" asp-action="GetPage(@Model.WebcomicId,@Model.PreviousPageNumber)"><</a>
+        <a class="nav-link text-dark" asp-area="" asp-controller="Comics" asp-action="GetPage(@Model.WebcomicId,@Model.RandomPageNumber)">?</a>
+        <a class="nav-link text-dark" asp-area="" asp-controller="Comics" asp-action="GetArchive(@Model.WebcomicId)">||</a>
+        <a class="nav-link text-dark" asp-area="" asp-controller="Comics" asp-action="GetPage(@Model.WebcomicId,@Model.NextPageNumber)">></a>
+        <a class="nav-link text-dark" asp-area="" asp-controller="Comics" asp-action="GetPage(@Model.WebcomicId,0)">>></a>
     </nav>
 
     <img src="@Model.ComicPath" alt="@Model.ComicAltText" name="comicimg"/>
@@ -21,11 +28,11 @@
     Very noncritical.-->
 
     <nav class="navbar navbar-extend-md justify-content-center" name="botnav">
-        <a class="nav-link text-dark" asp-area="" asp-controller="Comics" asp-action="Get(1)"><< first</a>
-        <a class="nav-link text-dark" asp-area="" asp-controller="Comics" asp-action="Get(@Model.PreviousComicNumber)">< previous</a>
-        <a class="nav-link text-dark" asp-area="" asp-controller="Comics" asp-action="Get(@Model.RandomComicNumber)">random</a>
-        <a class="nav-link text-dark" asp-area="" asp-controller="Archive" asp-action="Get()">archive</a>
-        <a class="nav-link text-dark" asp-area="" asp-controller="Comics" asp-action="Get(@Model.NextComicNumber)">next ></a>
-        <a class="nav-link text-dark" asp-area="" asp-controller="Comics" asp-action="Get(0)">latest >></a>
+        <a class="nav-link text-dark" asp-area="" asp-controller="Comics" asp-action="GetPage(@Model.WebcomicId,@Model.FirstPageNumber)"><< first</a>
+        <a class="nav-link text-dark" asp-area="" asp-controller="Comics" asp-action="GetPage(@Model.WebcomicId,@Model.PreviousPageNumber)">< previous</a>
+        <a class="nav-link text-dark" asp-area="" asp-controller="Comics" asp-action="GetPage(@Model.WebcomicId,@Model.RandomPageNumber)">random</a>
+        <a class="nav-link text-dark" asp-area="" asp-controller="Comics" asp-action="GetArchive(@Model.WebcomicId)">archive</a>
+        <a class="nav-link text-dark" asp-area="" asp-controller="Comics" asp-action="GetPage(@Model.WebcomicId,@Model.NextPageNumber)">next ></a>
+        <a class="nav-link text-dark" asp-area="" asp-controller="Comics" asp-action="GetPage(@Model.WebcomicId,0)">latest >></a>
     </nav>
 </section>

@@ -3,22 +3,16 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["WebcomicTitle"] - @ViewData["PageTitle"]</title>    
-    <!--Webcomic name and name of this specific page. Probably want to store WebcomicTitle in context
-    instead of as ViewData.-->
+    <title>FakeWebcomic - Archive</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body>
-    @{
-        long WebcomicId = ViewData["WebcomicId"];
-    }
-
     <header>
         <!--switches to toggleable at sm window size-->
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">@ViewData["WebcomicTitle"]</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">FakeWebcomic</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -26,16 +20,10 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Comics" asp-action="GetArchive(@WebcomicId)">Archive</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Main" asp-action="GetArchive">Archive</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Comics" asp-action="GetAbout(@WebcomicId)">About</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Main" asp-action="GetArchive()">FakeWebcomic Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Main" asp-action="GetAbout()">About FakeWebcomic</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Main" asp-action="GetAbout">About</a>
                         </li>
                     </ul>
                 </div>

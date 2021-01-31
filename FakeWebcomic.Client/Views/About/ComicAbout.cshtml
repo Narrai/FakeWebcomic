@@ -1,0 +1,32 @@
+@model FakeWebcomic.Client.Models.ComicAboutViewModel
+
+@{
+    ViewData["WebcomicTitle"] = Model.Title;
+    ViewData["PageTitle"] = "About";
+    ViewData["WebcomicId"] = Model.WebcomicId;
+}
+
+<section>
+    <h1>@Model.Title</h1>
+    <div>
+        <h2>Author:</h2>
+        <p>@Model.Author</p>>
+    </div>
+    <div>
+        <h2>Genre:</h2>
+        <p>@Model.Genre</p>>
+    </div>
+    <div>
+        <h2>Edition #:</h2>
+        <p>@Model.EditionNumber</p>>
+    </div>
+    <div>
+        <h2>Number of Pages:</h2>
+        <p>@Model.NumberOfPages</p>>
+    </div>
+</section>
+
+<section>
+    <h1>Description:</h1>
+    <p>@Model.Description</p>
+</section>

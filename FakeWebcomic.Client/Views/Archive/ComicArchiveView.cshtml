@@ -1,0 +1,18 @@
+@model FakeWebcomic.Client.Models.ComicArchiveViewModel
+
+@{
+    Layout = "_Layout";
+}
+
+@{
+    ViewData["WebcomicTitle"] = Model.ComicBook.Title;
+    ViewData["PageTitle"] = "Archive";
+    ViewData["WebcomicId"] = Model.WebcomicId;
+}
+
+@foreach (var comicpage in Model.ComicBook.ComicPages)
+{
+    <a type="button" asp-action="get" asp-controller="Comics" method="GetPage(@Model.ComicBook.EntityId,@comicpage.PageNumber)">
+        @comicpage.PageNumber. @comicpage.PageTitle
+    </a>
+}

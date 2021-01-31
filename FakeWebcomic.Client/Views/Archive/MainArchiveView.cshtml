@@ -1,0 +1,10 @@
+@model FakeWebcomic.Client.Models.MainArchiveViewModel
+
+@{
+    Layout = "_MainLayout";
+}
+
+@foreach (var comicbook in Model.ComicBooks)
+{
+    <a type="button" asp-action="get" asp-controller="comics" method="GetPage(@comicbook.EntityId,0)">@comicbook.Title</a>
+}

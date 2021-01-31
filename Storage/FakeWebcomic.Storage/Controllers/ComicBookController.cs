@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 namespace FakeWebcomic.Storage.Models
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("/api/[controller]")]
     public class ComicBookController : ControllerBase
     {
         private FakeWebcomicContext _ctx = new FakeWebcomicContext();

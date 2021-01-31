@@ -1,25 +1,41 @@
-using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using FakeWebcomic.Client.Models;
 using System.Net.Http;
-using System.Net.Http.Formatting;
 using Newtonsoft.Json;
+using System.Net.Http.Headers;
+using System;
+using System.Diagnostics;
+using System.Collections.Generic;
 
 namespace FakeWebcomic.Client.Controllers
 {
-    [Route("[controller]")]
-    public class ArchiveController : Controller
-    {
-        private HttpClient _http = new HttpClient();
+	[Route("[controller]")]
+	public class ArchiveController : Controller
+	{
+		[HttpGet]
+		public async Task<IActionResult> Get()
+		{
+			HttpClientHandler clientHandler = new HttpClientHandler();
+			clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
 
-        [HttpGet]
-        public async Task<IActionResult> Get()
-        {
-            var response = await _http.GetAsync("https://localhost:6002/user");
-            var content = JsonConvert.DeserializeObject<ArchiveViewModel>(await response.Content.ReadAsStringAsync());
-            return View("home", content);
-        }
-    }
+			using (var _http = new HttpClient(clientHandler))
+			{
+				_http.BaseAddress = new System.Uri("https://localhost:5001/api/");
+				_http.DefaultRequestHeaders.Accept.Clear();
+				_http.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+				var result = await _http.GetAsync("user");
+				if (result.IsSuccessStatusCode)
+				{
+					var content = JsonConvert.DeserializeObject<IEnumerable<ArchiveViewModel>>(await result.Content.ReadAsStringAsync());
+					return View("index", content);
+				}
+				else
+				{
+					return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+				}
+			}
+		}
+	}
 }

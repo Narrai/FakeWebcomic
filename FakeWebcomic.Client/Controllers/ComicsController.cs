@@ -7,6 +7,7 @@ namespace FakeWebcomic.Client.Controllers
     public class ComicsController
     {
         private string _storageApi = "https://localhost:6002/comicbook";
+        private string _storageApiPage = "https://localhost:6002/comicpage";
         private HttpClient _http = new HttpClient();
 
         //View comic page; requires no authorization or validation
@@ -27,7 +28,7 @@ namespace FakeWebcomic.Client.Controllers
                     //latest page.
                     if (webcomic.ComicPages.Length == 0)
                     {
-                        return (new AboutController()).Get(webcomic);
+                        return (new ComicsController()).GetAbout(webcomic);
                     }
 
                     if (webcomic.ComicPages.Contains(p => p.PageNumber == PageNumber))
@@ -118,6 +119,122 @@ namespace FakeWebcomic.Client.Controllers
                 return (new MainController()).Archive();
                 //If the response fails, you get kicked back to the main archive.
             }
+        }
+
+        //Create new page
+        [HttpGet]
+        public async IActionResult GetNewPage(long WebcomicId)
+        {
+            var response = await _http.GetAsync(_storageApi);
+            if (response.IsSuccessCode)
+            {
+                var ComicBooks = JsonConvert.DeserializeObject<List<ComicBookModel>>(await response.Content.ReadAsStringAsync());
+                
+                if (ComicBooks.Contains(c => c.EntityId == WebcomicId))
+                {
+                    ComicBookModel webcomic = ComicBooks.FirstOrDefault(c => c.EntityId = WebcomicId);
+                    webcomic.ComicPages.OrderBy(p => p.PageNumber);
+                    ComicPageModel page = new ComicPageModel{
+                        ComicBookId = webcomic.EntityId,
+                        ComicBook = webcomic
+                    }
+                    return View("NewPage",ComicPageViewModel(page));
+                }
+                else
+                {
+                    return (new MainController()).Archive();
+                    //If the webcomic doesn't exist, kick them back to the archive of webcomics.
+                    //Should be impossible via any in-application links.
+                }
+            }
+            else
+            {
+                return (new MainController()).Archive();
+                //If the response fails, you get kicked back to the main archive.
+            }
+        }
+        [HttpPost]
+        public async IActionResult PostPage(ComicPageViewModel page)
+        {
+            if (ModelState.IsValid)
+            {
+                var content = ComicPageModel(page)
+                var response = await _http.PostAsync(_storageApiPage,content);
+                if (response.IsSuccessCode)
+                {
+                    return View("SuccessfulNewPage", page);
+                }
+                else 
+                {
+                    return View("FailedNewPage", page);
+                }
+            }
+            return View("FailedNewPage", page);
+        }
+
+        //Modify old page
+        [HttpGet]
+        public async IActionResult GetUpdatePage(long WebcomicId)
+        {
+            var response = await _http.GetAsync(_storageApi);
+            if (response.IsSuccessCode)
+            {
+                var ComicBooks = JsonConvert.DeserializeObject<List<ComicBookModel>>(await response.Content.ReadAsStringAsync());
+                
+                if (ComicBooks.Contains(c => c.EntityId == WebcomicId))
+                {
+                    ComicBookModel webcomic = ComicBooks.FirstOrDefault(c => c.EntityId = WebcomicId);
+                    webcomic.ComicPages.OrderBy(p => p.PageNumber);
+
+                    if (webcomic.ComicPages.Length == 0)
+                    {
+                        return (new ComicsController()).GetArchive(webcomic);
+                        //There is no page to update; back to the archive with you
+                    }
+
+                    if (webcomic.ComicPages.Contains(p => p.PageNumber == PageNumber))
+                    {
+                        ComicPageModel page = webcomic.ComicPages.FirstOrDefault(p => p.PageNumber == PageNumber);
+                        ComicPageViewModel pageview = new ComicPageViewModel(page);
+                        return View("NewPage",pageview);
+                    }
+                    return (new ComicsController()).GetArchive(webcomic);
+                    //There is no page to update; back to the archive with you
+                    
+                }
+                else
+                {
+                    return (new MainController()).Archive();
+                    //If the webcomic doesn't exist, kick them back to the archive of webcomics.
+                    //Should be impossible via any in-application links.
+                }
+            }
+            else
+            {
+                return (new MainController()).Archive();
+                //If the response fails, you get kicked back to the main archive.
+            }
+        }
+        [HttpUpdate]
+        public async IActionResult UpdatePage(ComicPageViewModel page)
+        {
+            if (ModelState.IsValid)
+            {
+                var content = ComicPageModel(page)
+                var response = await _http.UpdateAsync(_storageApiPage,content);
+                if (response.IsSuccessCode)
+                {
+                    return View("SuccessfulNewPage", page);
+                }
+            }
+            return View("FailedNewPage", page);
+        }
+
+        //Delete a page
+        [HttpDelete]
+        public async IActionResult DeletePage(long pageid)
+        {
+
         }
     }
 }

@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace FakeWebcomic.Client.Models
 {
-    public class ComicBook : AEntity
+    public class ComicBookModel : AEntity
     {
         public string Title { get; set; }
         public string Author { get; set; }

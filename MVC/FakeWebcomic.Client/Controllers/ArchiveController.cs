@@ -13,17 +13,17 @@ namespace FakeWebcomic.Client.Controllers
 	[Route("[controller]")]
 	public class ArchiveController : Controller
 	{
+        private HttpClientHandler _clientHandler;
+
 		[HttpGet]
 		public async Task<IActionResult> Get()
 		{
-			HttpClientHandler clientHandler = new HttpClientHandler();
-			clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
+			_clientHandler = new HttpClientHandler();
+			_clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
 
-			using (var _http = new HttpClient(clientHandler))
+			using (var _http = new HttpClient(_clientHandler))
 			{
 				_http.BaseAddress = new System.Uri("https://localhost:5001/api/");
-				_http.DefaultRequestHeaders.Accept.Clear();
-				_http.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
 				var result = await _http.GetAsync("user");
 				if (result.IsSuccessStatusCode)

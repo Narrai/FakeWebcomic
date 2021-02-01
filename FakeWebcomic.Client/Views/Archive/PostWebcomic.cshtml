@@ -1,0 +1,13 @@
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model FakeWebcomic.Client.Models.ComicAboutViewModel
+
+@{
+    ViewData["WebcomicTitle"] = Model.Title;
+    ViewData["PageTitle"] = "About";
+}
+
+@*open success/fail view in new tab*@
+<form target="_blank" asp-area="" asp-controller="Main" asp-action="PostWebcomic" method="post">
+    @Html.Partial("AboutForm",Model)
+    <button type="submit">Create Webcomic!</button>
+</form>

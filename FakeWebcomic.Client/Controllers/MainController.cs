@@ -22,15 +22,42 @@ namespace FakeWebcomic.Client.Controllers
             if (response.IsSuccessCode)
             {
                 var ComicBooks = JsonConvert.DeserializeObject<List<ComicBookModel>>(await response.Content.ReadAsStringAsync());
+                ComicBooks.OrderBy(c => c.Title);
                 return View ("MainArchive",new MainArchiveViewModel(ComicBooks));
             }
         }
 
         //About
         [HttpGet]
-        public async IActionResult GetAbout(long WebcomicId)
+        public IActionResult GetAbout(long WebcomicId)
         {
             return View("MainAbout");
+        }
+
+        //Add webcomic
+        [HttpGet]
+        public IActionResult GetPostWebcomic()
+        {
+            return View("PostWebcomic", new ComicAboutViewModel(new ComicBookModel()));
+        }
+        [HttpPost]
+        public async IActionResult PostWebcomic(ComicBookModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var content = ComicPageModel(model)
+                var response = await _http.PostAsync(_storageApiPage,content);
+                if (response.IsSuccessCode)
+                {
+                    return View("SuccessfulNewPage", page);
+                }
+                else 
+                {
+                    return View("FailedNewPage", page);
+                }
+            }
+            return View("FailedNewPage", page);
+
         }
     }
 }

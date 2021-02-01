@@ -1,0 +1,14 @@
+@model FakeWebcomic.Client.Models.ComicAboutViewModel
+
+<label for="title">Title</label>
+<input type="text" name="title" id="title" value="@Model.Title" required />
+<label for="author">Author</label>
+<input type="text" name="author" id="author" value="@Model.Author" required />
+<label for="genre">Genre</label>
+<input type="text" name="genre" id="genre" value="@Model.Genre" />
+<label for="editionnumber">Edition #</label>
+<input type="text" name="editionnumber" id="editionnumber" value="@Model.EditionNumber" />
+<label for="numberofpages">Number Of Pages</label>
+<input type="text" name="numberofpages" id="numberofpages" value="@Model.NumberOfPages" readonly/>
+<label for="description">Description</label>
+<textarea name="description" id="description" rows="50">@Model.Description</textarea

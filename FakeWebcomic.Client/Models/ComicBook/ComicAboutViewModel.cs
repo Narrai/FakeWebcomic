@@ -4,8 +4,10 @@ namespace FakeWebcomic.Client.Models
 {
     public class ComicAboutViewModel
     {
+        [Required]
         public string Title { get; set; }
         public long WebcomicId {get;set;}
+        [Required]
         public string Author { get; set; }
         public string Genre { get; set; }
         public int EditionNumber { get; set; }

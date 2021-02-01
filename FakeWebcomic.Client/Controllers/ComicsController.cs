@@ -244,13 +244,48 @@ namespace FakeWebcomic.Client.Controllers
                         }
                     }
                     return (new AuthorController()).Home(webcomic.Auhthor);
-                    //There is no page to delete; back to AuthorHome with you
-                    
+                    //There is no page to delete; back to AuthorHome with you                    
                 }
             }
             return (new MainController()).Archive();
             //If the response fails or the webcomic doesn't exist, you get kicked back to the main archive.
             //Should be impossible via in-app links.
+        }
+
+        //Udpate About page (and by extension the entire webcomic object)
+        [HttpGet]
+        public async IActionResult GetUpdateAbout(string WebcomicName)
+        {
+            var response = await _http.GetAsync(_storageApi);
+            if (response.IsSuccessCode)
+            {
+                var ComicBooks = JsonConvert.DeserializeObject<List<ComicBookModel>>(await response.Content.ReadAsStringAsync());
+                
+                if (ComicBooks.Contains(c => c.Title == WebcomicName))
+                {
+                    ComicBookModel webcomic = ComicBooks.FirstOrDefault(c => c.Title = WebcomicName);
+                    webcomic.ComicPages.OrderBy(p => p.PageNumber);
+                    return View("UpdateAbout",ComicAboutViewModel(webcomic));
+                }
+            }
+            return (new MainController()).Archive();
+            //If the response fails or the webcomic doesn't exist, you get kicked back to the main archive.
+            }
+        }
+
+        [HttpUpdate]
+        public async IActionResult UpdateAbout(ComicAboutViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var content = ComicBookModel(model)
+                var response = await _http.UpdateAsync(_storageApi,content);
+                if (response.IsSuccessCode)
+                {
+                    return View("SuccessfulNewPage", model);
+                }
+            }
+            return View("FailedNewPage", model);
         }
     }
 }

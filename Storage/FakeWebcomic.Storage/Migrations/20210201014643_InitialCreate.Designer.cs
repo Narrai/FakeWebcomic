@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FakeWebcomic.Storage.Migrations
 {
     [DbContext(typeof(FakeWebcomicContext))]
-    [Migration("20210130205306_InitialCreate")]
+    [Migration("20210201014643_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -31,6 +31,9 @@ namespace FakeWebcomic.Storage.Migrations
                     b.Property<string>("Author")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("EditionNumber")
                         .HasColumnType("int");
 
@@ -49,6 +52,7 @@ namespace FakeWebcomic.Storage.Migrations
                         {
                             EntityId = 1L,
                             Author = "Hergé",
+                            Description = "Description goes here",
                             EditionNumber = 32,
                             Genre = "Adventure",
                             Title = "Tin Tin's Adventure"

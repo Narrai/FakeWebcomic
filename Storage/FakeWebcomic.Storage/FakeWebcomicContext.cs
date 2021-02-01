@@ -1,4 +1,5 @@
 using System.Drawing;
+using FakeWebcomic.Storage.Helper;
 using FakeWebcomic.Storage.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,11 +10,7 @@ namespace FakeWebcomic.Storage
         public DbSet<User> Users { get; set; }
         public DbSet<ComicBook> ComicBooks { get; set; }
         public DbSet<ComicPage> ComicPages { get; set; }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder builder)
-        {
-            builder.UseSqlServer("Server=tcp:fakewebcomic.database.windows.net,1433;Initial Catalog=project2_db;Persist Security Info=False;User ID=dbAdmin;Password=3Os$56c9;");
-        }
+        public FakeWebcomicContext(DbContextOptions<FakeWebcomicContext> options) : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -43,7 +40,7 @@ namespace FakeWebcomic.Storage
             byte[] imgByteArr = obj.ConvertImageToByteArray(img, ".jpg");
 
             ComicPage p1 = new ComicPage { EntityId = 1L, ComicBookId = 1L, PageNumber = 1, Image = imgByteArr, PageTitle = "Tin goes to the amuesment park" };
-            ComicBook b1 = new ComicBook { EntityId = 1L, Title = "Tin Tin's Adventure", Author = "Hergé", Genre = "Adventure", EditionNumber = 32 };
+            ComicBook b1 = new ComicBook { EntityId = 1L, Title = "Tin Tin's Adventure", Author = "Hergé", Genre = "Adventure", EditionNumber = 32, Description = "Description goes here" };
 
             // Insert the seed data to MS SQL DB
             builder.Entity<User>().HasData(u1);

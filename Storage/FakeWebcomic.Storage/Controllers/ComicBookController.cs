@@ -10,32 +10,36 @@ namespace FakeWebcomic.Storage.Models
     [Route("/api/[controller]")]
     public class ComicBookController : ControllerBase
     {
-        private FakeWebcomicContext _ctx = new FakeWebcomicContext();
+        private readonly FakeWebcomicRepository _ctx;
+        public ComicBookController(FakeWebcomicRepository context)
+        {
+            _ctx = context;
+        }
 
+        // GET api/comicbook
         [HttpGet]
         public async Task<IActionResult> GetComicBooks()
         {
-            var comicBooks = _ctx.ComicBooks.Include(b => b.ComicPages);
+            var comicBooks = _ctx.GetComicBooks(); //.Include(b => b.ComicPages);
             return await Task.FromResult(Ok(comicBooks));
         }
 
+        // POST api/comicbook
         [HttpPost]
         public async Task<IActionResult> AddComicBook(ComicBook comicBook)
         {
-            _ctx.ComicBooks.Add(comicBook);
-            _ctx.SaveChanges();
+            _ctx.GetComicBooks().Add(comicBook);
+            _ctx.Save();
             return await Task.FromResult(Ok("Comic book was added!"));
         }
 
-        // TOOD: Remove a comic book
-        [HttpDelete]
+        // DELETE api/comicbook/title
+        [HttpDelete("{title}")]
         public async Task<IActionResult> RemoveComicBook(string title)
         {
-            // Console.WriteLine("Parameter title: " + title);
-            // Console.WriteLine("Ctx title: " + _ctx.ComicBooks.Last().Title);
-            // Console.WriteLine(_ctx.ComicBooks.Where(c => c.Title == title).Last());
-            //_ctx.ComicBooks.Remove(_ctx.ComicBooks.Where(c => c.Title == title).SingleOrDefault());
-            //_ctx.SaveChanges();
+            var comicbooks = _ctx.GetComicBooks();
+            comicbooks.Remove(comicbooks.Where(c => c.Title == title).SingleOrDefault());
+            _ctx.Save();
             return await Task.FromResult(Ok("Comic book was removed!"));
         }
     }

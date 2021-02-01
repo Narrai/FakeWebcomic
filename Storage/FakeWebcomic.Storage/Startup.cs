@@ -1,6 +1,7 @@
 using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -26,10 +27,17 @@ namespace FakeWebcomic.Storage
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "FakeWebcomic.Storage", Version = "v1" });
             });
-            services.AddCors(options =>
-            {
-                options.AddDefaultPolicy(builder => builder.SetIsOriginAllowed(origin => new Uri(origin).Host == "localhost").AllowAnyHeader().AllowAnyMethod());
-            });
+            services.AddDbContext<FakeWebcomicContext>(
+                options => options.UseSqlServer(Configuration.GetConnectionString("sqlserver"), opts =>
+                {
+                    opts.EnableRetryOnFailure(2);
+                })
+            );
+            services.AddScoped<FakeWebcomicRepository>();
+            //services.AddCors(options =>
+            //{
+            //    options.AddDefaultPolicy(builder => builder.SetIsOriginAllowed(origin => new Uri(origin).Host == "localhost").AllowAnyHeader().AllowAnyMethod());
+            //});
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

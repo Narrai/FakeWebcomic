@@ -8,12 +8,16 @@ namespace FakeWebcomic.Storage.Models
     [Route("/api/[controller]")]
     public class ComicPageController : ControllerBase
     {
-        private FakeWebcomicContext _ctx = new FakeWebcomicContext();
+        private readonly FakeWebcomicRepository _ctx;
+        public ComicPageController(FakeWebcomicRepository context)
+        {
+            _ctx = context;
+        }
 
         [HttpGet]
         public async Task<IActionResult> GetComicBooks()
         {
-            var comicPages = _ctx.ComicPages.Include(c => c.ComicBook);
+            var comicPages = _ctx.GetComicPages().Include(c => c.ComicBook);
             return await Task.FromResult(Ok(comicPages));
         }
 

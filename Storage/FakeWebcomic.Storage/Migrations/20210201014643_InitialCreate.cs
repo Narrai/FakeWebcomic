@@ -16,7 +16,8 @@ namespace FakeWebcomic.Storage.Migrations
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Author = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Genre = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    EditionNumber = table.Column<int>(type: "int", nullable: false)
+                    EditionNumber = table.Column<int>(type: "int", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -61,8 +62,8 @@ namespace FakeWebcomic.Storage.Migrations
 
             migrationBuilder.InsertData(
                 table: "ComicBooks",
-                columns: new[] { "EntityId", "Author", "EditionNumber", "Genre", "Title" },
-                values: new object[] { 1L, "Hergé", 32, "Adventure", "Tin Tin's Adventure" });
+                columns: new[] { "EntityId", "Author", "Description", "EditionNumber", "Genre", "Title" },
+                values: new object[] { 1L, "Hergé", "Description goes here", 32, "Adventure", "Tin Tin's Adventure" });
 
             migrationBuilder.InsertData(
                 table: "Users",

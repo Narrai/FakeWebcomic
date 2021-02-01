@@ -7,12 +7,11 @@
 @{
     ViewData["WebcomicTitle"] = Model.ComicBook.Title;
     ViewData["PageTitle"] = "Archive";
-    ViewData["WebcomicId"] = Model.WebcomicId;
 }
 
 @foreach (var comicpage in Model.ComicBook.ComicPages)
 {
-    <a type="button" asp-action="get" asp-controller="Comics" method="GetPage(@Model.ComicBook.EntityId,@comicpage.PageNumber)">
+    <a type="button" method="get" asp-controller="Comics" asp-action="GetPage" asp-route-webcomicname="@Model.ComicBook.Title" asp-route-pagenumber="@comicpage.PageNumber">
         @comicpage.PageNumber. @comicpage.PageTitle
     </a>
 }

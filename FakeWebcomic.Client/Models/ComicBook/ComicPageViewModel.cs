@@ -21,6 +21,8 @@ namespace FakeWebcomic.Client.Models
         public int PreviousPageNumber {get;set;}
         public int NextPageNumber {get;set;}
         public int RandomPageNumber {get;set;}
+        public string AltText {get;set;}
+
         private List<ComicPageModel> _allPages {get;set;}
         private int _currentIndex {get;set;}
         private int _randIndex {get;set;}
@@ -33,6 +35,7 @@ namespace FakeWebcomic.Client.Models
             ComicTitle = ComicBook.Title;
             WebcomicId = comic.ComicBookId;
             Image = ImageConvertor.ConvertByteArrayToImage(comic.Image);
+            AltText = $"{PageNumber}. {PageTitle}";
 
             //In case the author is getting fancy by skipping page numbers or something, we can't
             //just get the next and previous page numbers by adding/subtracting 1 from PageNumber;

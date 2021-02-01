@@ -1,4 +1,5 @@
-@Model [page model]
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model FakeWebcomic.Client.Models.ComicPageViewModel
 
 @{
     Layout = "_Layout";
@@ -7,32 +8,31 @@
 @{
     ViewData["WebcomicTitle"] = Model.ComicBook.Title;
     ViewData["PageTitle"] = Model.PageTitle;
-    ViewData["WebcomicId"] = Model.WebcomicId;
 }
 
 <section name="comic">
     <h1 class="justify-content-center">@Model.ComicNumber. @Model.IndividualTitle</h1>
 
     <nav class="navbar navbar-extend-sm justify-content-center" name="topnav">
-        <a class="nav-link text-dark" asp-area="" asp-controller="Comics" asp-action="GetPage(@Model.WebcomicId,@Model.FirstPageNumber)"><<</a>
-        <a class="nav-link text-dark" asp-area="" asp-controller="Comics" asp-action="GetPage(@Model.WebcomicId,@Model.PreviousPageNumber)"><</a>
-        <a class="nav-link text-dark" asp-area="" asp-controller="Comics" asp-action="GetPage(@Model.WebcomicId,@Model.RandomPageNumber)">?</a>
-        <a class="nav-link text-dark" asp-area="" asp-controller="Comics" asp-action="GetArchive(@Model.WebcomicId)">||</a>
-        <a class="nav-link text-dark" asp-area="" asp-controller="Comics" asp-action="GetPage(@Model.WebcomicId,@Model.NextPageNumber)">></a>
-        <a class="nav-link text-dark" asp-area="" asp-controller="Comics" asp-action="GetPage(@Model.WebcomicId,0)">>></a>
+        <a class="nav-link text-dark" asp-area="" asp-controller="Comics" asp-action="GetPage" asp-route-webcomicname="@Model.ComicBook.Title" asp-route-pagenumber="@Model.FirstPageNumber" method="get"><<</a>
+        <a class="nav-link text-dark" asp-area="" asp-controller="Comics" asp-action="GetPage" asp-route-webcomicname="@Model.WebcomicId" asp-route-pagenumber="@Model.PreviousPageNumber" method="get"><</a>
+        <a class="nav-link text-dark" asp-area="" asp-controller="Comics" asp-action="GetPage" asp-route-webcomicname="@Model.ComicBook.Title" asp-route-pagenumber="@Model.RandomPageNumber" method="get">?</a>
+        <a class="nav-link text-dark" asp-area="" asp-controller="Comics" asp-action="GetArchive" asp-route-webcomicname="@Model.ComicBook.Title" method="get">||</a>
+        <a class="nav-link text-dark" asp-area="" asp-controller="Comics" asp-action="GetPage" asp-route-webcomicname="@Model.ComicBook.Title" asp-route-pagenumber="@Model.NextPageNumber" method="get">></a>
+        <a class="nav-link text-dark" asp-area="" asp-controller="Comics" asp-action="GetPage" asp-route-webcomicname="@Model.ComicBook.Title" asp-route-pagenumber="0" method="get">>></a>
     </nav>
 
-    <img src="@Model.ComicPath" alt="@Model.ComicAltText" name="comicimg"/>
+    <img src="@Model.Image" alt="@Model.AltText" name="comicimg"/>
     <!--Want to make it so clicking on the comic will take you to the next page.
     Best done with JS? Or can you make an img into a button more directly?
     Very noncritical.-->
 
     <nav class="navbar navbar-extend-md justify-content-center" name="botnav">
-        <a class="nav-link text-dark" asp-area="" asp-controller="Comics" asp-action="GetPage(@Model.WebcomicId,@Model.FirstPageNumber)"><< first</a>
-        <a class="nav-link text-dark" asp-area="" asp-controller="Comics" asp-action="GetPage(@Model.WebcomicId,@Model.PreviousPageNumber)">< previous</a>
-        <a class="nav-link text-dark" asp-area="" asp-controller="Comics" asp-action="GetPage(@Model.WebcomicId,@Model.RandomPageNumber)">random</a>
-        <a class="nav-link text-dark" asp-area="" asp-controller="Comics" asp-action="GetArchive(@Model.WebcomicId)">archive</a>
-        <a class="nav-link text-dark" asp-area="" asp-controller="Comics" asp-action="GetPage(@Model.WebcomicId,@Model.NextPageNumber)">next ></a>
-        <a class="nav-link text-dark" asp-area="" asp-controller="Comics" asp-action="GetPage(@Model.WebcomicId,0)">latest >></a>
+        <a class="nav-link text-dark" asp-area="" asp-controller="Comics" asp-action="GetPage" asp-route-webcomicname="@Model.ComicBook.Title" asp-route-pagenumber="@Model.FirstPageNumber" method="get"><< first</a>
+        <a class="nav-link text-dark" asp-area="" asp-controller="Comics" asp-action="GetPage" asp-route-webcomicname="@Model.WebcomicId" asp-route-pagenumber="@Model.PreviousPageNumber" method="get">< previous</a>
+        <a class="nav-link text-dark" asp-area="" asp-controller="Comics" asp-action="GetPage" asp-route-webcomicname="@Model.ComicBook.Title" asp-route-pagenumber="@Model.RandomPageNumber" method="get">random</a>
+        <a class="nav-link text-dark" asp-area="" asp-controller="Comics" asp-action="GetArchive" asp-route-webcomicname="@Model.ComicBook.Title" method="get">archive</a>
+        <a class="nav-link text-dark" asp-area="" asp-controller="Comics" asp-action="GetPage" asp-route-webcomicname="@Model.ComicBook.Title" asp-route-pagenumber="@Model.NextPageNumber" method="get">next ></a>
+        <a class="nav-link text-dark" asp-area="" asp-controller="Comics" asp-action="GetPage" asp-route-webcomicname="@Model.ComicBook.Title" asp-route-pagenumber="0" method="get">latest >></a>
     </nav>
 </section>

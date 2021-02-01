@@ -50,7 +50,7 @@ namespace p2stuff
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Main}/{action=Archive}/{WebcomicName?}/{PageNumber?}");
             });
         }
     }

@@ -6,5 +6,5 @@
 
 @foreach (var comicbook in Model.ComicBooks)
 {
-    <a type="button" asp-action="get" asp-controller="comics" method="GetPage(@comicbook.EntityId,0)">@comicbook.Title</a>
+    <a type="button" method="get" asp-controller="comics" asp-action="GetPage" asp-route-webcomicname="@comicbook.Title" asp-route-pagenumber="0">@comicbook.Title</a>
 }

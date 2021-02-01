@@ -11,30 +11,28 @@
 }
 
 <section name="comic">
-    <h1 class="justify-content-center">@Model.ComicNumber. @Model.PageTitle</h1>
+    <h1 class="justify-content-center">@Model.ComicNumber. @Model.IndividualTitle</h1>
 
     <nav class="navbar navbar-extend-sm justify-content-center" name="topnav">
-        <p></p>
-        <p></p>
-        <!--No links to previous or first comic-->
+        <a class="nav-link text-dark" asp-area="" asp-controller="Comics" asp-action="GetPage" asp-route-webcomicname="@Model.ComicBook.Title" asp-route-pagenumber="@Model.FirstPageNumber" method="get"><<</a>
+        <a class="nav-link text-dark" asp-area="" asp-controller="Comics" asp-action="GetPage" asp-route-webcomicname="@Model.WebcomicId" asp-route-pagenumber="@Model.PreviousPageNumber" method="get"><</a>
         <a class="nav-link text-dark" asp-area="" asp-controller="Comics" asp-action="GetPage" asp-route-webcomicname="@Model.ComicBook.Title" asp-route-pagenumber="@Model.RandomPageNumber" method="get">?</a>
         <a class="nav-link text-dark" asp-area="" asp-controller="Comics" asp-action="GetArchive" asp-route-webcomicname="@Model.ComicBook.Title" method="get">||</a>
-        <a class="nav-link text-dark" asp-area="" asp-controller="Comics" asp-action="GetPage" asp-route-webcomicname="@Model.ComicBook.Title" asp-route-pagenumber="@Model.NextPageNumber" method="get">></a>
-        <a class="nav-link text-dark" asp-area="" asp-controller="Comics" asp-action="GetPage" asp-route-webcomicname="@Model.ComicBook.Title" asp-route-pagenumber="0" method="get">>></a>
+        <p></p>
+        <p></p>
+        <!--No next or last page, because this is it-->
     </nav>
 
     <img src="@Model.Image" alt="@Model.AltText" name="comicimg"/>
-    <!--Want to make it so clicking on the comic will take you to the next page.
-    Best done with JS? Or can you make an img into a button more directly?
-    Very noncritical.-->
+    <!--No link to next comic, for sure-->
 
     <nav class="navbar navbar-extend-md justify-content-center" name="botnav">
-        <p></p>
-        <p></p>
-        <!--No links to previous or first comic-->
+        <a class="nav-link text-dark" asp-area="" asp-controller="Comics" asp-action="GetPage" asp-route-webcomicname="@Model.ComicBook.Title" asp-route-pagenumber="@Model.FirstPageNumber" method="get"><< first</a>
+        <a class="nav-link text-dark" asp-area="" asp-controller="Comics" asp-action="GetPage" asp-route-webcomicname="@Model.WebcomicId" asp-route-pagenumber="@Model.PreviousPageNumber" method="get">< previous</a>
         <a class="nav-link text-dark" asp-area="" asp-controller="Comics" asp-action="GetPage" asp-route-webcomicname="@Model.ComicBook.Title" asp-route-pagenumber="@Model.RandomPageNumber" method="get">random</a>
         <a class="nav-link text-dark" asp-area="" asp-controller="Comics" asp-action="GetArchive" asp-route-webcomicname="@Model.ComicBook.Title" method="get">archive</a>
-        <a class="nav-link text-dark" asp-area="" asp-controller="Comics" asp-action="GetPage" asp-route-webcomicname="@Model.ComicBook.Title" asp-route-pagenumber="@Model.NextPageNumber" method="get">next ></a>
-        <a class="nav-link text-dark" asp-area="" asp-controller="Comics" asp-action="GetPage" asp-route-webcomicname="@Model.ComicBook.Title" asp-route-pagenumber="0" method="get">latest >></a>
+        <p></p>
+        <p></p>
+        <!--No next or last page, because this is it-->
     </nav>
 </section>

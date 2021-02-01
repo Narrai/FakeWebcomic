@@ -1,10 +1,9 @@
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @model FakeWebcomic.Client.Models.ComicPageViewModel
 
-<form asp-action="post" asp-controller="Comics" method="PostPage" asp-antiforgery="true">
-    <label for="pagenumber">Page Number</label>
-    <input type="text" name="pagenumber" id="pagenumber" value="@Model.PageNumber" required/>
-    <label for="pagetitle">Page Title</label>
-    <input type="text" name="pagetitle" id="pagetitle" value="@Model.PageTitle" required/>
-    <label for="image">Image</label>
-    <input type="file" name="image" id="image" value="@Model.Image" required/>
-</form>
+<label for="pagenumber">Page Number</label>
+<input type="text" name="pagenumber" id="pagenumber" value="@Model.PageNumber" required/>
+<label for="pagetitle">Page Title</label>
+<input type="text" name="pagetitle" id="pagetitle" value="@Model.PageTitle" required/>
+<label for="image">Image</label>
+<input type="file" name="image" id="image" value="@Model.Image" required/>

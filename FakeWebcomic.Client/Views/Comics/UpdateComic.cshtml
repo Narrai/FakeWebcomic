@@ -6,7 +6,8 @@
     ViewData["PageTitle"] = "@Model.PageTitle [Update]";
 }
 
-<form asp-action="post" asp-controller="Comics" asp-action="UpdatePage" asp-route-webcomicname="@Model.ComicBook.Title" asp-route-pagenumber="@Model.PageNumber" method="Update" asp-antiforgery="true">
+@*opens in a separate tab so you don't lose your form if it doesn't work*@
+<form target="_blank" asp-action="post" asp-controller="Comics" asp-action="UpdatePage" asp-route-webcomicname="@Model.ComicBook.Title" asp-route-pagenumber="@Model.PageNumber" method="Update" asp-antiforgery="true">
     @Html.Partial("NewPage",Model)
     <button type="submit">Update Page</button>
 </form>

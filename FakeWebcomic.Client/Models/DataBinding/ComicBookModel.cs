@@ -14,7 +14,7 @@ namespace FakeWebcomic.Client.Models
 
         public ComicBookModel() {}
 
-        public ComicBookModel(ComicAboutViewModel model)
+        public ComicBookModel(ComicBookViewModel model)
         {
             Title = model.Title;
             Author = model.Author;

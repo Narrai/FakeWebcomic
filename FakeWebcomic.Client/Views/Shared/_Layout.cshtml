@@ -11,7 +11,7 @@
 </head>
 <body>
     @{
-        string WebcomicName = ViewData["WebcomicTitle"];
+        string WebcomicName = ViewData["WebcomicTitle"].ToString();
     }
 
     <header>
@@ -26,16 +26,16 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Comics" asp-action="GetArchive" asp-route-webcomicname="@WebcomicTitle" method="get">Archive</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Comics" asp-action="Archive" asp-route-webcomicname="@WebcomicName" method="get">Archive</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Comics" asp-action="GetAbout" asp-route="@WebcomicName" method="get">About</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Comics" asp-action="About" asp-route="@WebcomicName" method="get">About</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Main" asp-action="GetArchive" method="get">FakeWebcomic Home</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Main" asp-action="Archive" method="get">FakeWebcomic Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Main" asp-action="GetAbout" method="get">About FakeWebcomic</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Main" asp-action="About" method="get">About FakeWebcomic</a>
                         </li>
                     </ul>
                 </div>

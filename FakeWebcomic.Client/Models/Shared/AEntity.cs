@@ -1,4 +1,4 @@
-namespace FakeWebcomic.Storage.Models
+namespace FakeWebcomic.Client.Models
 {
     public abstract class AEntity
     {

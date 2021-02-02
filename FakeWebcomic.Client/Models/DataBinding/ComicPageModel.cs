@@ -18,7 +18,7 @@ namespace FakeWebcomic.Client.Models
         {
             PageTitle = model.PageTitle;
             PageNumber = model.PageNumber;
-            Image = ImageConvertor.ConvertImageToByteArray(model.Image);
+            Image = ImageConvertor.ConvertImageToByteArray(model.Image,".jpg");
             ComicBookId = model.WebcomicId;
             ComicBook = model.ComicBook;
         }

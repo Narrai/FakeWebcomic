@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace FakeWebcomic.Client.Models
 {
-    public class MainArchiveViewModel
+    public class ComicArchiveViewModel
     {
         public ComicBookModel ComicBook {get;set;}
 

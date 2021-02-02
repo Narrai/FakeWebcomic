@@ -1,8 +1,9 @@
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace FakeWebcomic.Client.Models
 {
-    public class ComicAboutViewModel
+    public class ComicBookViewModel
     {
         [Required]
         public string Title { get; set; }
@@ -12,10 +13,12 @@ namespace FakeWebcomic.Client.Models
         public string Genre { get; set; }
         public int EditionNumber { get; set; }
         public string Description {get;set;}
+        
+        public List<ComicPageModel> ComicPages { get; set; }
 
         public int NumberOfPages {get;set;}
 
-        ComicAboutViewModel(ComicBookModel comic)
+        public ComicBookViewModel(ComicBookModel comic)
         {
             Title = comic.Title;
             WebcomicId = comic.EntityId;
@@ -23,7 +26,8 @@ namespace FakeWebcomic.Client.Models
             Genre = comic.Genre;
             EditionNumber = comic.EditionNumber;
             Description = comic.Description;
-            NumberOfPages = comic.ComicPages.Length;
+            ComicPages = (List<ComicPageModel>)comic.ComicPages;
+            NumberOfPages = ComicPages.Count;
         }
     }
 }

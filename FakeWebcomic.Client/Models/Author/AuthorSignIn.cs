@@ -6,7 +6,7 @@ namespace FakeWebcomic.Client.Models
     {
         public List<Author> Authors {get;set;}
 
-        public ComicArchiveViewModel(List<Author> authors)
+        public AuthorSignInViewModel(List<Author> authors)
         {
             Authors = authors;
         }

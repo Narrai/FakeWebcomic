@@ -16,7 +16,7 @@ namespace FakeWebcomic.Client.Helper
             }
         }
 
-        public byte[] ConvertImageToByteArray(Image image, string extension)
+        public static byte[] ConvertImageToByteArray(Image image, string extension)
         {
             using (var memoryStream = new MemoryStream())
             {

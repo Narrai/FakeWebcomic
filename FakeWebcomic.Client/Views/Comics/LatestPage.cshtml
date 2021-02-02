@@ -11,7 +11,7 @@
 }
 
 <section name="comic">
-    <h1 class="justify-content-center">@Model.ComicNumber. @Model.IndividualTitle</h1>
+    <h1 class="justify-content-center">@Model.PageNumber. @Model.PageTitle</h1>
 
     <nav class="navbar navbar-extend-sm justify-content-center" name="topnav">
         <a class="nav-link text-dark" asp-area="" asp-controller="Comics" asp-action="GetPage" asp-route-webcomicname="@Model.ComicBook.Title" asp-route-pagenumber="@Model.FirstPageNumber" method="get"><<</a>

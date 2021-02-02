@@ -8,6 +8,6 @@
 
 @*open success/fail view in new tab*@
 <form target="_blank" asp-area="" asp-controller="Main" asp-action="PostWebcomic" method="post" asp-antiforgery="true">
-    @Html.Partial("AboutForm",Model)
+    @Html.Partial("AboutFormView",Model)
     <button type="submit">Create Webcomic!</button>
 </form>

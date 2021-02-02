@@ -6,7 +6,8 @@
     ViewData["PageTitle"] = "Create Page";
 }
 
-<form asp-action="post" asp-controller="Comics" asp-action="PostPage" asp-route-webcomicname="@Model.ComicBook.Title" asp-route-pagenumber="@Model.PageNumber" method="post" asp-antiforgery="true">
-    @Html.Partial("NewPage",Model)
+<form asp-action="post" asp-controller="Comics" asp-action="PostPage" asp-route-webcomicname="@Model.ComicBook.Title"
+    asp-route-pagenumber="@Model.PageNumber" method="post" asp-antiforgery="true">
+    @Html.Partial("NewPageView",Model)
     <button type="submit">Create Page</button>
 </form>

@@ -30,7 +30,7 @@ namespace FakeWebcomic.Client.Controllers
                 {
                     var ComicBooks = JsonConvert.DeserializeObject<List<ComicBookModel>>(await response.Content.ReadAsStringAsync());
                     ComicBooks.OrderBy(c => c.Title);
-                    return View("MainArchive", new MainArchiveViewModel(ComicBooks));
+                    return View("MainArchiveView", new MainArchiveViewModel(ComicBooks));
                 }
                 return View("Error", new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
             }
@@ -53,7 +53,7 @@ namespace FakeWebcomic.Client.Controllers
                     {
                         numberofpages += webcomic.ComicPages.Count;
                     }
-                    return View("MainAbout", new MainAboutViewModel(ComicBooks.Count(), numberofpages));
+                    return View("MainAboutView", new MainAboutViewModel(ComicBooks.Count(), numberofpages));
                 }
                 return View("Error", new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
             }
@@ -68,7 +68,7 @@ namespace FakeWebcomic.Client.Controllers
             {
                 Author = User.Identity.Name
             };
-            return View("PostWebcomic", new ComicBookViewModel(webcomic));
+            return View("PostWebcomicView", new ComicBookViewModel(webcomic));
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -85,12 +85,12 @@ namespace FakeWebcomic.Client.Controllers
                     var response = await _http.PostAsync(_webcomicsUri, stringContent);
                     if (response.IsSuccessStatusCode)
                     {
-                        return View("SuccessfulNewPage");
+                        return View("SuccessfulNewPageView");
                     }
-                    return View("FailedNewPage");
+                    return View("FailedNewPageView");
                 }
             }
-            return View("GetPostWebcomic", model);
+            return View("GetPostWebcomicView", model);
         }
     }
 }

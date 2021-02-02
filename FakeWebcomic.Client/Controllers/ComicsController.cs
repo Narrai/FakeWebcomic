@@ -16,8 +16,8 @@ namespace FakeWebcomic.Client.Controllers
 
     public class ComicsController : Controller
     {
-        private string _webcomicsUri = "https://localhost:5000/api/comicbook";
-        private string _pagesUri = "https://localhost:5000/api/comicpage";
+        private string _webcomicsUri = "https://localhost:5001/api/comicbook";
+        private string _pagesUri = "https://localhost:5001/api/comicpage";
         private HttpClientHandler _clientHandler = new HttpClientHandler();
 
         //View comic page; requires no authorization or validation
@@ -52,16 +52,16 @@ namespace FakeWebcomic.Client.Controllers
                             ComicPageViewModel pageview = new ComicPageViewModel(page);
                             if (PageNumber == pageview.FirstPageNumber)
                             {
-                                return View("FirstPage",pageview);
+                                return View("FirstPageView",pageview);
                             }
                             if (PageNumber == 0 || PageNumber == webcomic.ComicPages[^1].PageNumber)
                             // PageNumber == 0 is the designation for default page (Latest)
                             {
-                                return View("LatestPage",pageview);
+                                return View("LatestPageView",pageview);
                             }
-                            return View("MiddlePage",pageview);
+                            return View("MiddlePageView",pageview);
                         }
-                        return View("LatestPage",new ComicPageViewModel(webcomic.ComicPages[^1]));
+                        return View("LatestPageView",new ComicPageViewModel(webcomic.ComicPages[^1]));
                         //If the page number is invalid, send to the default page (Latest).
                         //Should be impossible via any in-application links.
                     }
@@ -90,7 +90,7 @@ namespace FakeWebcomic.Client.Controllers
                     {
                         ComicBookModel webcomic = ComicBooks.FirstOrDefault(c => c.Title == WebcomicName);
                         webcomic.ComicPages.OrderBy(p => p.PageNumber);
-                        return View("ComicArchive",new ComicArchiveViewModel(webcomic));
+                        return View("ComicArchiveView",new ComicArchiveViewModel(webcomic));
                     }
                     return await (new MainController()).Archive();
                     //If the webcomic doesn't exist, kick them back to the archive of webcomics.
@@ -117,7 +117,7 @@ namespace FakeWebcomic.Client.Controllers
                     {
                         ComicBookModel webcomic = ComicBooks.FirstOrDefault(c => c.Title == WebcomicName);
                         webcomic.ComicPages.OrderBy(p => p.PageNumber);
-                        return View("ComicAbout",new ComicBookViewModel(webcomic));
+                        return View("ComicAboutView",new ComicBookViewModel(webcomic));
                     }
                     return await (new MainController()).Archive();
                     //If the webcomic doesn't exist, you get kicked back to the main archive.
@@ -155,7 +155,7 @@ namespace FakeWebcomic.Client.Controllers
                             ComicBookId = webcomic.EntityId,
                             ComicBook = webcomic
                         };
-                        return View("NewPage",new ComicPageViewModel(page));
+                        return View("NewPageView",new ComicPageViewModel(page));
                     }
                     return await (new MainController()).Archive();
                     //If the webcomic doesn't exist, kick them back to the archive of webcomics.
@@ -181,12 +181,12 @@ namespace FakeWebcomic.Client.Controllers
                     var response = await _http.PostAsync(_pagesUri,stringContent);
                     if (response.IsSuccessStatusCode)
                     {
-                        return View("SuccessfulNewPage", page);
+                        return View("SuccessfulNewPageView", page);
                     }
                     return View("Error",new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
                 }
             }
-            return View("FailedNewPage", page);
+            return View("FailedNewPageView", page);
         }
 
         //Modify old page
@@ -224,7 +224,7 @@ namespace FakeWebcomic.Client.Controllers
                         {
                             ComicPageModel page = webcomic.ComicPages.FirstOrDefault(p => p.PageNumber == PageNumber);
                             ComicPageViewModel pageview = new ComicPageViewModel(page);
-                            return View("UpdatePage",pageview);
+                            return View("UpdatePageView",pageview);
                         }
                         return View("ComicArchiveView", new ComicArchiveViewModel(webcomic));
                         //There is no page to update; back to the archive with you
@@ -253,12 +253,12 @@ namespace FakeWebcomic.Client.Controllers
                     var response = await _http.PutAsync(_pagesUri,stringContent);
                     if (response.IsSuccessStatusCode)
                     {
-                        return View("SuccessfulNewPage", page);
+                        return View("SuccessfulNewPageView", page);
                     }
                     return View("Error",new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
                 }
             }
-            return View("FailedNewPage", page);
+            return View("FailedNewPageView", page);
         }
 
         //Delete a page
@@ -333,7 +333,7 @@ namespace FakeWebcomic.Client.Controllers
                     {
                         ComicBookModel webcomic = ComicBooks.FirstOrDefault(c => c.Title == WebcomicName);
                         webcomic.ComicPages.OrderBy(p => p.PageNumber);
-                        return View("UpdateAbout", new ComicBookViewModel(webcomic));
+                        return View("UpdateAboutView", new ComicBookViewModel(webcomic));
                     }
                     return await (new MainController()).Archive();
                     //If the webcomic doesn't exist, back to the main archive
@@ -358,12 +358,12 @@ namespace FakeWebcomic.Client.Controllers
                     var response = await _http.PutAsync(_webcomicsUri,stringContent);
                     if (response.IsSuccessStatusCode)
                     {
-                        return View("SuccessfulNewPage", model);
+                        return View("SuccessfulNewPageView", model);
                     }
                 }
                 return View("Error",new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
             }
-            return View("FailedNewPage", model);
+            return View("FailedNewPageView", model);
         }
     }
 }

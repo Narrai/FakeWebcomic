@@ -12,12 +12,12 @@ using System.Threading.Tasks;
 
 namespace FakeWebcomic.Client.Controllers
 {
-    [Route("[controller]")]
+    [Route("[controller]/[action]")]
 
     public class ComicsController : Controller
     {
-        private string _webcomicsUri = "https://localhost:5001/api/comicbook";
-        private string _pagesUri = "https://localhost:5001/api/comicpage";
+        private string _webcomicsUri = "https://localhost:5000/api/comicbook";
+        private string _pagesUri = "https://localhost:5000/api/comicpage";
         private HttpClientHandler _clientHandler = new HttpClientHandler();
 
         //View comic page; requires no authorization or validation
@@ -25,20 +25,20 @@ namespace FakeWebcomic.Client.Controllers
         public async Task<IActionResult> GetPage(string WebcomicName,int PageNumber)
         {
             _clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
-            
+
             using (var _http = new HttpClient(_clientHandler))
 			{
                 var response = await _http.GetAsync(_webcomicsUri);
                 if (response.IsSuccessStatusCode)
                 {
                     var ComicBooks = JsonConvert.DeserializeObject<List<ComicBookModel>>(await response.Content.ReadAsStringAsync());
-                    
+
                     if (ComicBooks.FirstOrDefault(c => c.Title == WebcomicName) != null)
                     {
                         ComicBookViewModel webcomic = new ComicBookViewModel(ComicBooks.FirstOrDefault(c => c.Title == WebcomicName));
 
                         webcomic.ComicPages.OrderBy(p => p.PageNumber);
-                        
+
                         //First, if there aren't any pages, you get sent to the About page instead of the
                         //latest page.
                         if (webcomic.ComicPages.Count == 0)
@@ -54,7 +54,7 @@ namespace FakeWebcomic.Client.Controllers
                             {
                                 return View("FirstPage",pageview);
                             }
-                            if (PageNumber == 0 || PageNumber == webcomic.ComicPages[^1].PageNumber)    
+                            if (PageNumber == 0 || PageNumber == webcomic.ComicPages[^1].PageNumber)
                             // PageNumber == 0 is the designation for default page (Latest)
                             {
                                 return View("LatestPage",pageview);
@@ -67,7 +67,7 @@ namespace FakeWebcomic.Client.Controllers
                     }
                     return await (new MainController()).Archive();
                     //If the webcomic doesn't exist, kick them back to the archive of webcomics.
-                    //Should be impossible via any in-application links.    
+                    //Should be impossible via any in-application links.
                 }
                 return View("Error",new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
             }
@@ -78,14 +78,14 @@ namespace FakeWebcomic.Client.Controllers
         public async Task<IActionResult> GetArchive(string WebcomicName)
         {
             _clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
-            
+
             using (var _http = new HttpClient(_clientHandler))
 			{
                 var response = await _http.GetAsync(_webcomicsUri);
                 if (response.IsSuccessStatusCode)
                 {
                     var ComicBooks = JsonConvert.DeserializeObject<List<ComicBookModel>>(await response.Content.ReadAsStringAsync());
-                    
+
                     if (ComicBooks.FirstOrDefault(c => c.Title == WebcomicName) != null)
                     {
                         ComicBookModel webcomic = ComicBooks.FirstOrDefault(c => c.Title == WebcomicName);
@@ -105,14 +105,14 @@ namespace FakeWebcomic.Client.Controllers
         public async Task<IActionResult> GetAbout(string WebcomicName)
         {
             _clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
-            
+
             using (var _http = new HttpClient(_clientHandler))
 			{
                 var response = await _http.GetAsync(_webcomicsUri);
                 if (response.IsSuccessStatusCode)
                 {
                     var ComicBooks = JsonConvert.DeserializeObject<List<ComicBookModel>>(await response.Content.ReadAsStringAsync());
-                    
+
                     if (ComicBooks.FirstOrDefault(c => c.Title == WebcomicName) != null)
                     {
                         ComicBookModel webcomic = ComicBooks.FirstOrDefault(c => c.Title == WebcomicName);
@@ -131,14 +131,14 @@ namespace FakeWebcomic.Client.Controllers
         public async Task<IActionResult> GetNewPage(string WebcomicName)
         {
             _clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
-            
+
             using (var _http = new HttpClient(_clientHandler))
 			{
                 var response = await _http.GetAsync(_webcomicsUri);
                 if (response.IsSuccessStatusCode)
                 {
                     var ComicBooks = JsonConvert.DeserializeObject<List<ComicBookModel>>(await response.Content.ReadAsStringAsync());
-                    
+
                     if (ComicBooks.FirstOrDefault(c => c.Title == WebcomicName) != null)
                     {
                         ComicBookModel webcomic = ComicBooks.FirstOrDefault(c => c.Title == WebcomicName);
@@ -164,7 +164,7 @@ namespace FakeWebcomic.Client.Controllers
                 return View("Error",new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
             }
         }
-        
+
         //still posting new page
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -173,7 +173,7 @@ namespace FakeWebcomic.Client.Controllers
             if (ModelState.IsValid)
             {
                 _clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
-            
+
                 using (var _http = new HttpClient(_clientHandler))
                 {
                     var stringData = JsonConvert.SerializeObject(new ComicPageModel(page));
@@ -194,14 +194,14 @@ namespace FakeWebcomic.Client.Controllers
         public async Task<IActionResult> GetUpdatePage(string WebcomicName,int PageNumber)
         {
             _clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
-            
+
             using (var _http = new HttpClient(_clientHandler))
 			{
                 var response = await _http.GetAsync(_webcomicsUri);
                 if (response.IsSuccessStatusCode)
                 {
                     var ComicBooks = JsonConvert.DeserializeObject<List<ComicBookModel>>(await response.Content.ReadAsStringAsync());
-                    
+
                     if (ComicBooks.FirstOrDefault(c => c.Title == WebcomicName) != null)
                     {
                         ComicBookModel webcomic = ComicBooks.FirstOrDefault(c => c.Title == WebcomicName);
@@ -245,7 +245,7 @@ namespace FakeWebcomic.Client.Controllers
             if (ModelState.IsValid)
             {
                 _clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
-            
+
                 using (var _http = new HttpClient(_clientHandler))
                 {
                     var stringData = JsonConvert.SerializeObject(new ComicPageModel(page));
@@ -268,7 +268,7 @@ namespace FakeWebcomic.Client.Controllers
         public async Task<IActionResult> DeletePage(string WebcomicName,int PageNumber, ComicArchiveViewModel model)
         {
             _clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
-            
+
             using (var _http = new HttpClient(_clientHandler))
 			{
                 var response = await _http.GetAsync(_webcomicsUri);
@@ -278,14 +278,14 @@ namespace FakeWebcomic.Client.Controllers
                     if (ComicBooks.FirstOrDefault(c => c.Title == WebcomicName) != null)
                     {
                         ComicBookViewModel webcomic = new ComicBookViewModel(ComicBooks.FirstOrDefault(c => c.Title == WebcomicName));
-                        
+
                         if (User.Identity.Name != webcomic.Author)
                         {
                             //Impossible via in-application links; user is hacking. Back to main page,
                             //for lack of a more severe punishment.
                             return View("MainArchiveView", new MainArchiveViewModel(ComicBooks));
                         }
-                        
+
                         if (webcomic.ComicPages.FirstOrDefault(p => p.PageNumber == PageNumber) != null)
                         {
                             ComicPageModel page = webcomic.ComicPages.FirstOrDefault(p => p.PageNumber == PageNumber);
@@ -321,14 +321,14 @@ namespace FakeWebcomic.Client.Controllers
         public async Task<IActionResult> GetUpdateAbout(string WebcomicName)
         {
             _clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
-            
+
             using (var _http = new HttpClient(_clientHandler))
 			{
                 var response = await _http.GetAsync(_webcomicsUri);
                 if (response.IsSuccessStatusCode)
                 {
                     var ComicBooks = JsonConvert.DeserializeObject<List<ComicBookModel>>(await response.Content.ReadAsStringAsync());
-                    
+
                     if (ComicBooks.FirstOrDefault(c => c.Title == WebcomicName) != null)
                     {
                         ComicBookModel webcomic = ComicBooks.FirstOrDefault(c => c.Title == WebcomicName);
@@ -350,7 +350,7 @@ namespace FakeWebcomic.Client.Controllers
             if (ModelState.IsValid)
             {
                 _clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
-            
+
                 using (var _http = new HttpClient(_clientHandler))
                 {
                     var stringData = JsonConvert.SerializeObject(new ComicBookModel(model));

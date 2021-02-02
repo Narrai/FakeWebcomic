@@ -23,7 +23,7 @@ namespace FakeWebcomic.Client.Controllers
 
 			using (var _http = new HttpClient(_clientHandler))
 			{
-				_http.BaseAddress = new System.Uri("https://localhost:5001/api/");
+				_http.BaseAddress = new System.Uri("https://localhost:5000/api/");
 
 				var result = await _http.GetAsync("user");
 				if (result.IsSuccessStatusCode)

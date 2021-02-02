@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace FakeWebcomic.Client.Controllers
 {
-    [Route("[controller]")]
+    [Route("[controller]/[action]")]
     public class MainController : Controller
     {
         private string _webcomicsUri = "https://localhost:5001/api/comicbook";
@@ -20,19 +20,19 @@ namespace FakeWebcomic.Client.Controllers
         //Archive
         [HttpGet]
         public async Task<IActionResult> Archive()
-        {       
+        {
             _clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
-            
+
             using (var _http = new HttpClient(_clientHandler))
-			{
+            {
                 var response = await _http.GetAsync(_webcomicsUri);
                 if (response.IsSuccessStatusCode)
                 {
                     var ComicBooks = JsonConvert.DeserializeObject<List<ComicBookModel>>(await response.Content.ReadAsStringAsync());
                     ComicBooks.OrderBy(c => c.Title);
-                    return View("MainArchive",new MainArchiveViewModel(ComicBooks));
+                    return View("MainArchive", new MainArchiveViewModel(ComicBooks));
                 }
-                return View("Error",new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+                return View("Error", new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
             }
         }
 
@@ -41,9 +41,9 @@ namespace FakeWebcomic.Client.Controllers
         public async Task<IActionResult> About()
         {
             _clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
-            
+
             using (var _http = new HttpClient(_clientHandler))
-			{
+            {
                 var response = await _http.GetAsync(_webcomicsUri);
                 if (response.IsSuccessStatusCode)
                 {
@@ -53,9 +53,9 @@ namespace FakeWebcomic.Client.Controllers
                     {
                         numberofpages += webcomic.ComicPages.Count;
                     }
-                    return View("MainAbout",new MainAboutViewModel(ComicBooks.Count(), numberofpages));
+                    return View("MainAbout", new MainAboutViewModel(ComicBooks.Count(), numberofpages));
                 }
-                return View("Error",new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+                return View("Error", new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
             }
         }
 
@@ -64,7 +64,8 @@ namespace FakeWebcomic.Client.Controllers
         [Authorize]
         public IActionResult GetPostWebcomic()
         {
-            ComicBookModel webcomic = new ComicBookModel(){
+            ComicBookModel webcomic = new ComicBookModel()
+            {
                 Author = User.Identity.Name
             };
             return View("PostWebcomic", new ComicBookViewModel(webcomic));
@@ -76,9 +77,9 @@ namespace FakeWebcomic.Client.Controllers
             if (ModelState.IsValid)
             {
                 _clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
-            
+
                 using (var _http = new HttpClient(_clientHandler))
-	    		{
+                {
                     var stringData = JsonConvert.SerializeObject(new ComicBookModel(model));
                     var stringContent = new StringContent(stringData, UnicodeEncoding.UTF8, "application/json");
                     var response = await _http.PostAsync(_webcomicsUri, stringContent);

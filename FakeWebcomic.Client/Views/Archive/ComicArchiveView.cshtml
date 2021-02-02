@@ -15,6 +15,6 @@
         @comicpage.PageNumber. @comicpage.PageTitle
     </a>
     <button type="submit" method="get" asp-controller="Comics" asp-action="GetUpdatePage" asp-route-webcomicname="@Model.ComicBook.Title" asp-route-pagenumber="@comicpage.PageNumber">Modify Page</button>
-    <button type="submit" formtarget="_blank" method="get" asp-controller="Comics" asp-action="DeletePage" asp-route-webcomicname="@Model.ComicBook.Title" asp-route-pagenumber="@comicpage.PageNumber">Delete Page</button>
+    <button type="submit" formtarget="_blank" method="get" asp-controller="Comics" asp-action="DeletePage" asp-route-webcomicname="@Model.ComicBook.Title" asp-route-pagenumber="@comicpage.PageNumber" asp-antiforgery="true">Delete Page</button>
 }
 <button type="submit" method="get" asp-controller="Comics" asp-action="GetNewPage" asp-route-webcomicname="@Model.ComicBook.Title">Add New Page</button>

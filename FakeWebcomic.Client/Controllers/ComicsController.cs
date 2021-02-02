@@ -1,4 +1,5 @@
 using FakeWebcomic.Client.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System;
@@ -141,6 +142,14 @@ namespace FakeWebcomic.Client.Controllers
                     if (ComicBooks.FirstOrDefault(c => c.Title == WebcomicName) != null)
                     {
                         ComicBookModel webcomic = ComicBooks.FirstOrDefault(c => c.Title == WebcomicName);
+
+                        if (User.Identity.Name != webcomic.Author)
+                        {
+                            //Impossible via in-application links; user is hacking. Back to main page,
+                            //for lack of a more severe punishment.
+                            return View("MainArchiveView", new MainArchiveViewModel(ComicBooks));
+                        }
+
                         webcomic.ComicPages.OrderBy(p => p.PageNumber);
                         ComicPageModel page = new ComicPageModel(){
                             ComicBookId = webcomic.EntityId,
@@ -158,6 +167,7 @@ namespace FakeWebcomic.Client.Controllers
         
         //still posting new page
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> PostPage(ComicPageViewModel page)
         {
             if (ModelState.IsValid)
@@ -197,6 +207,13 @@ namespace FakeWebcomic.Client.Controllers
                         ComicBookModel webcomic = ComicBooks.FirstOrDefault(c => c.Title == WebcomicName);
                         webcomic.ComicPages.OrderBy(p => p.PageNumber);
 
+                        if (User.Identity.Name != webcomic.Author)
+                        {
+                            //Impossible via in-application links; user is hacking. Back to main page,
+                            //for lack of a more severe punishment.
+                            return View("MainArchiveView", new MainArchiveViewModel(ComicBooks));
+                        }
+
                         if (webcomic.ComicPages.Count == 0)
                         {
                             return View("ComicArchiveView", new ComicArchiveViewModel(webcomic));
@@ -222,6 +239,7 @@ namespace FakeWebcomic.Client.Controllers
 
         //still updating old page
         [HttpPut]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> UpdatePage(ComicPageViewModel page)
         {
             if (ModelState.IsValid)
@@ -245,6 +263,8 @@ namespace FakeWebcomic.Client.Controllers
 
         //Delete a page
         [HttpDelete]
+        [Authorize]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeletePage(string WebcomicName,int PageNumber, ComicArchiveViewModel model)
         {
             _clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
@@ -255,10 +275,17 @@ namespace FakeWebcomic.Client.Controllers
                 if (response.IsSuccessStatusCode)
                 {
                     var ComicBooks = JsonConvert.DeserializeObject<List<ComicBookModel>>(await response.Content.ReadAsStringAsync());
-                    
                     if (ComicBooks.FirstOrDefault(c => c.Title == WebcomicName) != null)
                     {
                         ComicBookViewModel webcomic = new ComicBookViewModel(ComicBooks.FirstOrDefault(c => c.Title == WebcomicName));
+                        
+                        if (User.Identity.Name != webcomic.Author)
+                        {
+                            //Impossible via in-application links; user is hacking. Back to main page,
+                            //for lack of a more severe punishment.
+                            return View("MainArchiveView", new MainArchiveViewModel(ComicBooks));
+                        }
+                        
                         if (webcomic.ComicPages.FirstOrDefault(p => p.PageNumber == PageNumber) != null)
                         {
                             ComicPageModel page = webcomic.ComicPages.FirstOrDefault(p => p.PageNumber == PageNumber);
@@ -272,12 +299,14 @@ namespace FakeWebcomic.Client.Controllers
                             var response2 = await _http.SendAsync(request);
                             if (response2.IsSuccessStatusCode)
                             {
+                                //switch to AuthorController.AuthorHome once that's up and running
                                 return View("ComicArchiveView", new ComicArchiveViewModel(new ComicBookModel(webcomic)));
                             }
                             return View("Error",new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
                         }
                         return View("ComicArchiveView", model);
                         //There is no page to delete; back to the archive with you!
+                        //switch to AuthorController.AuthorHome once that's up and running
                     }
                     return View("MainArchiveView", new MainArchiveViewModel(ComicBooks));
                     //There is no such webcomic; back to the archive with you!
@@ -315,6 +344,7 @@ namespace FakeWebcomic.Client.Controllers
 
         //still updating about/webcomic
         [HttpPut]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> UpdateAbout(ComicBookViewModel model)
         {
             if (ModelState.IsValid)

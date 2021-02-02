@@ -1,0 +1,25 @@
+@model FakeWebcomic.Client.Models.AuthorHomeViewModel
+
+@{
+    Layout = "_MainLayout";
+}
+
+<h1>@Model.Name's Webcomics</h1>
+@foreach (var comicbook in Model.ComicBooks)
+{
+    <section>
+        <a type="button" method="get" asp-controller="comics" asp-action="GetPage" asp-route-webcomicname="@comicbook.Title" asp-route-pagenumber="0">@comicbook.Title</a>
+        <button type="button" data-toggle="collapse" data-target="#@comicbook.Title-pages" aria-expanded="false" aria-controls="@comicbook.Title-pages">Expand/Collapse</button>
+        <div class="collapse" id="@comicbook.Title-pages">
+            @foreach (var comicpage in comicbook.ComicPages)
+            {
+                <a type="button" method="get" asp-controller="Comics" asp-action="GetPage" asp-route-webcomicname="@comicbook.Title" asp-route-pagenumber="@comicpage.PageNumber">
+                    @comicpage.PageNumber. @comicpage.PageTitle
+                </a>
+                <button type="submit" method="get" asp-controller="Comics" asp-action="GetUpdatePage" asp-route-webcomicname="@comicbook.Title" asp-route-pagenumber="@comicpage.PageNumber">Modify Page</button>
+                <button type="submit" formtarget="_blank" method="get" asp-controller="Comics" asp-action="DeletePage" asp-route-webcomicname="@comicbook.Title" asp-route-pagenumber="@comicpage.PageNumber" asp-antiforgery="true">Delete Page</button>
+            }
+        </div>
+        <button type="submit" method="get" asp-controller="Comics" asp-action="GetNewPage" asp-route-webcomicname="@comicbook.Title">Add New Page</button>
+    </section>
+}

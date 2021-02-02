@@ -1,4 +1,5 @@
 using FakeWebcomic.Client.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Collections.Generic;
@@ -60,11 +61,16 @@ namespace FakeWebcomic.Client.Controllers
 
         //Add webcomic
         [HttpGet]
+        [Authorize]
         public IActionResult GetPostWebcomic()
         {
-            return View("PostWebcomic", new ComicBookViewModel(new ComicBookModel()));
+            ComicBookModel webcomic = new ComicBookModel(){
+                Author = User.Identity.Name
+            };
+            return View("PostWebcomic", new ComicBookViewModel(webcomic));
         }
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> PostWebcomic(ComicBookViewModel model)
         {
             if (ModelState.IsValid)

@@ -41,7 +41,7 @@ namespace FakeWebcomic.Client.Controllers
 
                         //First, if there aren't any pages, you get sent to the About page instead of the
                         //latest page.
-                        if (webcomic.ComicPages.Count == 0)
+                        if (webcomic.NumberOfPages == 0)
                         {
                             return await (new ComicsController()).GetAbout(WebcomicName);
                         }
@@ -214,10 +214,11 @@ namespace FakeWebcomic.Client.Controllers
                             return View("MainArchiveView", new MainArchiveViewModel(ComicBooks));
                         }
 
-                        if (webcomic.ComicPages.Count == 0)
+                        if (webcomic.ComicPages == null || webcomic.ComicPages.Count == 0)
                         {
                             return View("ComicArchiveView", new ComicArchiveViewModel(webcomic));
                             //There is no page to update; back to the archive with you
+                            //Change to AuthorHome once that's up and running.
                         }
 
                         if (webcomic.ComicPages.FirstOrDefault(p => p.PageNumber == PageNumber) != null)

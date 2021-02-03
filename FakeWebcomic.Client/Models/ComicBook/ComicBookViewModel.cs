@@ -13,7 +13,7 @@ namespace FakeWebcomic.Client.Models
         public string Genre { get; set; }
         public int EditionNumber { get; set; }
         public string Description {get;set;}
-        
+
         public List<ComicPageModel> ComicPages { get; set; }
 
         public int NumberOfPages {get;set;}
@@ -27,7 +27,11 @@ namespace FakeWebcomic.Client.Models
             EditionNumber = comic.EditionNumber;
             Description = comic.Description;
             ComicPages = (List<ComicPageModel>)comic.ComicPages;
-            NumberOfPages = ComicPages.Count;
+            if (ComicPages == null)
+            {
+                NumberOfPages = 0;
+            }
+            else { NumberOfPages = ComicPages.Count; }
         }
     }
 }

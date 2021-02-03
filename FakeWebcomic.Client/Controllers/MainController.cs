@@ -51,6 +51,10 @@ namespace FakeWebcomic.Client.Controllers
                     int numberofpages = 0;
                     foreach (var webcomic in ComicBooks)
                     {
+                        if (webcomic.ComicPages == null)
+                        {
+                            continue;
+                        }
                         numberofpages += webcomic.ComicPages.Count;
                     }
                     return View("MainAboutView", new MainAboutViewModel(ComicBooks.Count(), numberofpages));

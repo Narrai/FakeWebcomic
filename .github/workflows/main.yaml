@@ -1,6 +1,6 @@
 defaults:
   run:
-    working-directory: FAKE_WEBCOMIC
+    working-directory: FAKEWEBCOMIC
 
 jobs:
   build:

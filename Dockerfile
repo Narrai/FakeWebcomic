@@ -1,7 +1,7 @@
 FROM mcr.microsoft.com/dotnet/sdk as base
 
 WORKDIR /workspace
-COPY FAKE_WEBCOMIC .
+COPY FAKEWEBCOMIC .
 RUN dotnet build -c Release
 RUN dotnet publish --no-build -c Release -o out FakeWebcomic.Client/*.csproj
 
